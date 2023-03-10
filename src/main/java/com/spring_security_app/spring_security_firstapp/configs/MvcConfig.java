@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.configs;
+package com.spring_security_app.spring_security_firstapp.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
