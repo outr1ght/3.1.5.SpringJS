@@ -61,7 +61,7 @@ public class AdminController {
     public String showInfo(Model model, @PathVariable("id") Long id) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
-//        model.addAttribute("roles", user.getRoles());
+        model.addAttribute("role", user.getRoles());
         return "/admin/show-info";
     }
 

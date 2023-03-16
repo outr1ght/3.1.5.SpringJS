@@ -25,6 +25,13 @@
         </td>
     </tr>
     <tr>
+        <td>Roles: </td>
+        <td>
+            <p th:each="roles : ${role}"
+               th:text="${roles.getRole()}">value</p>
+        </td>
+    </tr>
+    <tr>
         <td>
             <form th:method="GET" th:action="@{/admin/{id}/edit(id = ${user.getId()})}">
                 <input type="submit" value="Edit">
@@ -39,5 +46,10 @@
         </td>
     </tr>
 </table>
+
+<hr>
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout!"/>
+</form>
 </body>
 </html>

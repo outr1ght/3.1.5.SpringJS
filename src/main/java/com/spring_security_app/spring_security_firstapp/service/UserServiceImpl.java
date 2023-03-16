@@ -49,6 +49,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).get();
+    }
+
+    @Override
     @Transactional
     public void updateUser(long id, User updateUser) {
         User userToUpdate = userRepository.getById(id);
