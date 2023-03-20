@@ -11,18 +11,19 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class RegistrationService {
+public class RegistrationServiceImpl implements RegistrationService{
 
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistrationService(UserService userService, PasswordEncoder passwordEncoder) {
+    public RegistrationServiceImpl(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     @Transactional
     public void register(User user) {
         Role userRole = new Role();

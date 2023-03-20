@@ -1,7 +1,7 @@
 package com.spring_security_app.spring_security_firstapp.controllers;
 
 import com.spring_security_app.spring_security_firstapp.entities.User;
-import com.spring_security_app.spring_security_firstapp.service.RegistrationService;
+import com.spring_security_app.spring_security_firstapp.service.RegistrationServiceImpl;
 import com.spring_security_app.spring_security_firstapp.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,12 +18,12 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final UserValidator userValidator;
-    private final RegistrationService registrationService;
+    private final RegistrationServiceImpl registrationServiceImpl;
 
     @Autowired
-    public AuthController(UserValidator userValidator, RegistrationService registrationService) {
+    public AuthController(UserValidator userValidator, RegistrationServiceImpl registrationServiceImpl) {
         this.userValidator = userValidator;
-        this.registrationService = registrationService;
+        this.registrationServiceImpl = registrationServiceImpl;
     }
 
     @GetMapping("/login")
@@ -46,7 +46,7 @@ public class AuthController {
             return "/auth/registration";
         }
 
-        registrationService.register(user);
+        registrationServiceImpl.register(user);
 
         return "redirect:/auth/login";
     }

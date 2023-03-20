@@ -3,6 +3,7 @@ package com.spring_security_app.spring_security_firstapp.util;
 import com.spring_security_app.spring_security_firstapp.entities.User;
 import com.spring_security_app.spring_security_firstapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -12,11 +13,11 @@ import org.springframework.validation.Validator;
 @Component
 public class UserValidator implements Validator {
 
-    private final UserServiceImpl userService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public UserValidator(UserServiceImpl userService) {
-        this.userService = userService;
+    public UserValidator(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
 
@@ -29,7 +30,7 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
         try {
-            userService.loadUserByUsername(user.getUsername());
+            userDetailsService.loadUserByUsername(user.getUsername());
         } catch (UsernameNotFoundException ignored) {
             return;
         }

@@ -1,7 +1,9 @@
 package com.spring_security_app.spring_security_firstapp.controllers;
 
+import com.spring_security_app.spring_security_firstapp.entities.Role;
 import com.spring_security_app.spring_security_firstapp.entities.User;
-import com.spring_security_app.spring_security_firstapp.service.RegistrationService;
+import com.spring_security_app.spring_security_firstapp.repositories.RoleRepository;
+import com.spring_security_app.spring_security_firstapp.service.RegistrationServiceImpl;
 import com.spring_security_app.spring_security_firstapp.service.UserService;
 import com.spring_security_app.spring_security_firstapp.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,20 +23,30 @@ public class AdminController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final RegistrationService registrationService;
+    private final RegistrationServiceImpl registrationServiceImpl;
     private final UserValidator userValidator;
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    public AdminController(UserService userService, PasswordEncoder passwordEncoder, RegistrationService registrationService, UserValidator userValidator) {
+    public AdminController(UserService userService, PasswordEncoder passwordEncoder, RegistrationServiceImpl registrationServiceImpl, UserValidator userValidator, RoleRepository roleRepository) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-        this.registrationService = registrationService;
+        this.registrationServiceImpl = registrationServiceImpl;
         this.userValidator = userValidator;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping("/admin-page")
-    public String getAllUsers(Model model) {
+    public String getAllUsers(Model model, Principal principal) {
+
+        User admin = userService.getUserByUsername(principal.getName());
+        model.addAttribute("admin", admin);
+        model.addAttribute("userRole", admin.getRoles());
         model.addAttribute("user", userService.getAllUsers());
+
+        List<Role> roles = roleRepository.findAll();
+        model.addAttribute("roles", roles);
         return "/admin/admin-page";
     }
 
@@ -51,7 +65,7 @@ public class AdminController {
             return "/admin/create-user";
         }
 
-        registrationService.register(user);
+        registrationServiceImpl.register(user);
 
         return "redirect:/admin/admin-page";
     }
