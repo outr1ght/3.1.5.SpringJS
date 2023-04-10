@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class StartConfig implements ApplicationListener<ContextRefreshedEvent> {
@@ -31,8 +32,14 @@ public class StartConfig implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        Collection<Role> userRoles;
-        Collection<Role> adminRoles;
+
+        Role userRole = new Role();
+        userRole.setRole("ROLE_USER");
+        Role adminRole = new Role();
+        adminRole.setRole("ROLE_ADMIN");
+        Collection<Role> userRoles = List.of(userRole);
+        Collection<Role> adminRoles = List.of(adminRole);
+
 
         if (userRepository.findByUsername("user").isEmpty()) {
 
@@ -40,13 +47,7 @@ public class StartConfig implements ApplicationListener<ContextRefreshedEvent> {
             user.setUsername("user");
             user.setAge(22);
             user.setPassword(passwordEncoder.encode("user"));
-
-            if (roleRepository.findByRole("ROLE_USER").isEmpty()){
-                Role userRole = new Role();
-                userRole.setRole("ROLE_USER");
-                userRoles = List.of(userRole);
-                user.setRoles(userRoles);
-            }
+            user.setRoles(userRoles);
 
             userRepository.save(user);
         }
@@ -56,13 +57,7 @@ public class StartConfig implements ApplicationListener<ContextRefreshedEvent> {
             admin.setUsername("admin");
             admin.setAge(32);
             admin.setPassword(passwordEncoder.encode("admin"));
-            if (roleRepository.findByRole("ROLE_ADMIN").isEmpty()) {
-                Role adminRole = new Role();
-                adminRole.setRole("ROLE_ADMIN");
-
-                adminRoles = List.of(adminRole);
-                admin.setRoles(adminRoles);
-            }
+            admin.setRoles(adminRoles);
 
             userRepository.save(admin);
         }

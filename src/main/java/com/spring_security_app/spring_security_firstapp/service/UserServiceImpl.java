@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -53,10 +52,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(long id, User updateUser) {
-        User userToUpdate = userRepository.getById(id);
-        userToUpdate.setUsername(updateUser.getUsername());
-        userToUpdate.setAge(updateUser.getAge());
-        userToUpdate.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        User userToUpdate = userRepository.findById(id).get();
+        if (userToUpdate.getPassword().equals(updateUser.getPassword())) {
+            userRepository.save(updateUser);
+        } else {
+            updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+            userRepository.save(updateUser);
+        }
+
+
     }
 
     @Override

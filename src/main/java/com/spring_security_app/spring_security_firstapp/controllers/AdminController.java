@@ -37,18 +37,19 @@ public class AdminController {
         this.roleRepository = roleRepository;
     }
 
-    @GetMapping("/admin-page")
-    public String getAllUsers(Model model, Principal principal) {
+    @GetMapping("/main-page")
+    public String getAllUsers(Model model, Principal principal, @ModelAttribute("user") User user) {
 
         User admin = userService.getUserByUsername(principal.getName());
         model.addAttribute("admin", admin);
         model.addAttribute("userRole", admin.getRoles());
-        model.addAttribute("user", userService.getAllUsers());
+        model.addAttribute("users", userService.getAllUsers());
 
         List<Role> roles = roleRepository.findAll();
         model.addAttribute("roles", roles);
-        return "/admin/admin-page";
+        return "/admin/main-page";
     }
+
 
     @GetMapping("/create-user")
     public String creationPage(@ModelAttribute("user") User user) {
@@ -67,7 +68,7 @@ public class AdminController {
 
         registrationServiceImpl.register(user);
 
-        return "redirect:/admin/admin-page";
+        return "redirect:/admin/main-page";
     }
 
 
@@ -81,21 +82,27 @@ public class AdminController {
 
 
     @GetMapping("/{id}/edit")
-    public String editUser(Model model, @PathVariable("id") long id) {
+    public String editUser(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.getUserById(id));
+        List<Role> roles = roleRepository.findAll();
+        model.addAttribute("roles", roles);
         return "/admin/edit-user";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+    @PatchMapping("/update")
+    public String update(@ModelAttribute("user") @Valid User user, @RequestParam("id") Long id,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/admin/edit-user";
+        }
         userService.updateUser(id, user);
-        return "redirect:/admin/admin-page";
+        return "redirect:/admin/main-page";
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable("id") long id){
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
-        return "redirect:/admin/admin-page";
+        return "redirect:/admin/main-page";
     }
 
 
