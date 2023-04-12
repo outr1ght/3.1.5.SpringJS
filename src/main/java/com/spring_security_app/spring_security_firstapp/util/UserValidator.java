@@ -1,7 +1,6 @@
 package com.spring_security_app.spring_security_firstapp.util;
 
 import com.spring_security_app.spring_security_firstapp.entities.User;
-import com.spring_security_app.spring_security_firstapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

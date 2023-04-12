@@ -22,16 +22,14 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
     private final RegistrationServiceImpl registrationServiceImpl;
     private final UserValidator userValidator;
 
     private final RoleRepository roleRepository;
 
     @Autowired
-    public AdminController(UserService userService, PasswordEncoder passwordEncoder, RegistrationServiceImpl registrationServiceImpl, UserValidator userValidator, RoleRepository roleRepository) {
+    public AdminController(UserService userService, RegistrationServiceImpl registrationServiceImpl, UserValidator userValidator, RoleRepository roleRepository) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
         this.registrationServiceImpl = registrationServiceImpl;
         this.userValidator = userValidator;
         this.roleRepository = roleRepository;

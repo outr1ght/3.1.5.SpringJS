@@ -3,7 +3,6 @@ package com.spring_security_app.spring_security_firstapp.service;
 
 
 import com.spring_security_app.spring_security_firstapp.entities.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 

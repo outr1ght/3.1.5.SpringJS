@@ -2,7 +2,6 @@ package com.spring_security_app.spring_security_firstapp.configs;
 
 import com.spring_security_app.spring_security_firstapp.entities.Role;
 import com.spring_security_app.spring_security_firstapp.entities.User;
-import com.spring_security_app.spring_security_firstapp.repositories.RoleRepository;
 import com.spring_security_app.spring_security_firstapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -12,19 +11,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class StartConfig implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public StartConfig(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.roleRepository = roleRepository;
+    public StartConfig(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
