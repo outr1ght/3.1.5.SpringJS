@@ -6,6 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
 @Entity
@@ -18,18 +21,24 @@ public class User implements UserDetails {
     private long id;
 
     @Column(name = "username")
+    @NotEmpty(message = "Username should not be empty")
     private String username;
 
     @Column(name = "age")
+    @Min(value = 0, message = "Age should be greater than 0")
     private int age;
 
     @Column(name = "surname")
+    @NotEmpty(message = "Surname should not be empty")
     private String surname;
 
     @Column(name = "email")
+    @Email
+    @NotEmpty(message = "Email should not be empty")
     private String email;
 
     @Column(name = "password")
+    @NotEmpty(message = "Create a password")
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY,
