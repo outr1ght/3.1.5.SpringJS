@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class RESTController {
 
+
     private final UserService userService;
 
     @Autowired
@@ -35,21 +36,7 @@ public class RESTController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user,
-                                                 BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
-
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors) {
-                errorMessage.append(error.getField())
-                        .append(" - ")
-                        .append(error.getDefaultMessage())
-                        .append(";");
-            }
-
-            throw new UserNotCreatedException(errorMessage.toString());
-        }
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user) {
 
         userService.add(user);
 
@@ -79,7 +66,7 @@ public class RESTController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok(HttpStatus.OK);
