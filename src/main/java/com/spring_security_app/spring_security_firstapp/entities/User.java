@@ -49,7 +49,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     public void addRole(Role role) {
         this.roles.add(role);
@@ -58,7 +58,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, int age, String password, Collection<Role> roles) {
+    public User(String username, int age, String password, Set<Role> roles) {
         this.username = username;
         this.age = age;
         this.password = password;
@@ -70,6 +70,15 @@ public class User implements UserDetails {
         this.age = age;
     }
 
+    @Transient
+    private String rolesToString;
+
+    public String getRolesToString() {
+        return getRoles().toString()
+                .replace("[", "")
+                .replace("]", "")
+                .replace("ROLE_", "");
+    }
     public long getId() {
         return id;
     }
@@ -115,11 +124,11 @@ public class User implements UserDetails {
         return getRoles();
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class StartConfig implements ApplicationListener<ContextRefreshedEvent> {
@@ -33,8 +34,8 @@ public class StartConfig implements ApplicationListener<ContextRefreshedEvent> {
         userRole.setRole("ROLE_USER");
         Role adminRole = new Role();
         adminRole.setRole("ROLE_ADMIN");
-        Collection<Role> userRoles = List.of(userRole);
-        Collection<Role> adminRoles = List.of(adminRole);
+        Set<Role> userRoles = Set.of(userRole);
+        Set<Role> adminRoles = Set.of(adminRole);
 
 
         if (userRepository.findByUsername("user").isEmpty()) {

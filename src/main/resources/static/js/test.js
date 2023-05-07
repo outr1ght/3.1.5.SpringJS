@@ -29,10 +29,7 @@ function getUsers() {
                 out += '<td>' + user.surname + '</td>';
                 out += '<td>' + user.age + '</td>';
                 out += '<td>' + user.email + '</td>';
-                out += '<td>' + user.stringRoles + '</td>'
-
-
-                console.log(out);
+                out += '<td>' + user.rolesToString + '</td>'
 
                 out += '<td>' +
                     '<button type="button" class="btn btn-info" data-bs-target="#editModal" data-bs-toggle="modal" ' +

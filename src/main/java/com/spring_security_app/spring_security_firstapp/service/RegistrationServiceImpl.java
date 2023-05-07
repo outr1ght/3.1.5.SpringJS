@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RegistrationServiceImpl implements RegistrationService{
@@ -28,7 +29,7 @@ public class RegistrationServiceImpl implements RegistrationService{
     public void register(User user) {
         Role userRole = new Role();
         userRole.setRole("ROLE_USER");
-        Collection<Role> userRoles = List.of(userRole);
+        Set<Role> userRoles = Set.of(userRole);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(userRoles);
